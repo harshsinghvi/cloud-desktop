@@ -1,0 +1,21 @@
+
+version: "3"
+services:
+  api:
+    build: .
+    ports: 
+      - "5000:5000"
+    volumes: 
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  portrainer:
+    image: portainer/portainer-ce
+    ports: 
+      - "8000:8000"
+      - "9000:9000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainer_data:/data"
+
+volumes:
+  portainer_data:
