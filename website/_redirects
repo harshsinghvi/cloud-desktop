@@ -1,5 +1,1 @@
 /testauth/* 200! Role=admin
-/testauth/ /testlogin 404
-
-/loginauth/* 200! Role=admin
-/loginauth/ /testlogin 404
