@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <title>Identity Example Site</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <div class="App">
+        <div class="navDiv">
+            <div class="navbar-fixed">
+                <nav>
+                    <div class="nav-wrapper blue darken-3">
+                        <a href="/" class="brand-logo">
+                           
+                        </a>
+                        <a href="#" data-activates="mobile-demo" class="button-collapse">
+                            <i class="material-icons">menu</i>
+                        </a>
+                        <ul class="right hide-on-med-and-down">
+                            <li>
+                                    <a href="/">Home</a>
+                            </li>
+                            <li>
+                                <a href="/testauth">Test Auth</a>
+                            </li>
+                            
+                            </li>
+                            <li>
+                                    <a href="/testlogin/">Login</a>
+                            </li>
+                            <li>
+                                    <a href="/admin/">NetlifyCMS</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </nav>
+            </div>
+            <ul class="side-nav" id="mobile-demo">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="/testauth">Test Auth</a>
+                </li>
+                
+                <li>
+                    <a href="/testlogin/">Login</a>
+                </li>
+                <li>
+                    <a href="/admin/">NetlifyCMS</a>
+                </li>
+                <li onClick={this.openIdentityWidget}>
+                    <a>Login</a>
+                </li>
+            </ul>
+
+
+            <h1 class='bannerText1'> Netlify
+                <strong onClick={this.handleLogIn} class="bannerText1strong">IDENTITY</strong>
+            </h1>
+
+        </div>
+        
+        <div class="container shiftUp">
+            <div class="row">
+                <div class="col s12">
+                <div class="card-panel grey lighten-5 black-text ">
+                    <main>
+                        <p id="primary-text">
+                        You would have been redirected here automatically if you went to the <a href="/testauth">Test Auth</a> page without being logged in.
+                        You can also go to this page by clicking on the 'Login' link at the top of the page. If you want to log in, click the button below.
+                        </p>
+                        <p>You can log in with these credentials:</p>
+                        <blockquote>
+                            <strong>username:</strong> test@netlify.com <br />  
+                            <strong>password:</strong> testing
+                        </blockquote>
+                        <button class="btn waves-effect waves-light black" type="submit" name="action" data-netlify-identity-button><i class="material-icons right"></i></button>
+                    </main>
+                </div>
+                </div>
+            </div>
+           
+    </div>
+    <script>
+    // This function does the date comparison and logs the user out if necessary, also updates the text.
+            const updateLoginText = ()=>{
+                document.getElementById("primary-text").textContent="Looks like you've logged in successfully! Now try clicking the 'Test Auth' link at the top!"
+            }
+            const compareDate = (exp) => {
+                const d = Date.now()
+                if (d > exp){
+                console.log("Your identity session has expired")
+                netlifyIdentity.logout();
+                netlifyIdentity.open();
+                } else {
+                console.log("the token hasn't expired, yet")
+                updateLoginText()
+                }
+            }
+            if (window.netlifyIdentity) {
+    // Check if the JWT token is expired, if so log out the user          
+                netlifyIdentity.on("login", user => {
+                console.log(user)
+                compareDate(user.token.expires_at)
+                });
+    // Redirect to the main page after a successful login
+                window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        updateLoginText()
+                    });
+                }
+            });   
+            }
+            
+    </script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".button-collapse").sideNav();
+        })
+    </script>
+
+</body>
+
+</html>
