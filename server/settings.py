@@ -13,4 +13,5 @@ DEFAULT_DOCKER_IMAGE=DOCKER_IMAGES[0]
 
 TIME_ZONE = 'Asia/Kolkata'
 
-FRONTEND_URL='cloud-desktop.harshsinghvi.com'
+# FRONTEND_URL='https://cloud-desktop.harshsinghvi.com'
+FRONTEND_URL='http://localhost:8000'
