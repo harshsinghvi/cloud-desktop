@@ -22,8 +22,26 @@ async function data(){
     var data = await response.json();
     if(response.status == 200 )
     {
+        document.getElementById("username").innerHTML = data['data']['username'];
+        document.getElementById("welcome").innerHTML = data['data']['name'];
         console.log("Authenticated")
     }
-    
+    if(response.status == 401 )
+    {
+        window.location.replace(HOME+"/retry.html"); 
+    }
+
+    html = "";
+    for(i in data['data']['containers'])
+    {
+        html = html + '  <tr>    <td>'+ i +'</td> <td>'+ data['data']['containers'][i] +'</td>   <td>'+'  asd'+'</td><td>'+ "xyz" +'</td> <td><button onclick="delete_desklet('+i+')" > <i class="fa fa-trash" aria-hidden="true"></i></button></td>  </tr>'
+    }
+    document.getElementById("data").innerHTML=html;
+
     console.log(data);
+}
+
+function delete_desklet(uid){
+    alert("Are you sure, You want to delete "+ uid + " ?");
+    data();
 }
