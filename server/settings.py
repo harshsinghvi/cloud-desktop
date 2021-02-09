@@ -10,3 +10,7 @@ DOCKER_REMOTE_HOST=getenv("DOCKER_REMOTE_HOST")
 DOCKER_IMAGES=["code:v1"]
 
 DEFAULT_DOCKER_IMAGE=DOCKER_IMAGES[0]
+
+TIME_ZONE = 'Asia/Kolkata'
+
+FRONTEND_URL='cloud-desktop.harshsinghvi.com'

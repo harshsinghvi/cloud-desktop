@@ -1,15 +1,75 @@
 import docker
-import  flask
+
+from flask import Flask, request, jsonify, render_template, session, redirect
+from flask_cors import CORS, cross_origin
+from flask_pymongo import PyMongo,ObjectId
+
+from pytz import timezone
+from datetime import datetime
+
 from settings import *
-from flask import request
+
+
 
 # Flask app config
-app = flask.Flask(__name__)
+app = Flask(__name__)
 app.config["DEBUG"] = True
 
-## DOCKER CONFIG 
+# database config
+app.config['MONGO_URI'] = MONGODB_URI
+mongo = PyMongo(app)
+
+#CORS config
+CORS(app, support_credentials=True)
+
+# DOCKER CONFIG 
 # client = docker.from_env() ## for local docker host 
 client = docker.DockerClient(base_url=DOCKER_REMOTE_HOST) ## for remote docker host
+
+# Session Properties
+SESSION_DETAILS=['username','authenticated']
+USERNAME = SESSION_DETAILS[0]
+AUTHENCATED = SESSION_DETAILS[1]
+
+# TZ
+IST = timezone(TIME_ZONE) 
+
+# custom functions
+def auth_check(username, password):
+        creds = mongo.db.find({"username":request.args['username']},{ "_id": 0, "username": 1, "password": 1 })
+        if creds['username'] == request.args['username'] and creds['password'] == request.args['password']:
+            session['username']=request.args['username']
+            session['authenticated']='1'
+            return True
+        else: 
+            return False
+
+@app.route('/', methods=['GET', 'POST'])
+def root():
+    return redirect(FRONTEND_URL)
+
+@cross_origin()
+@app.route('/auth', method = ['POST', 'GET'])
+def auth():
+    if 'username' in request.args and 'password' in request.args:
+        creds = mongo.db.find({"username":request.args['username']},{ "_id": 0, "username": 1, "password": 1 })
+        if creds['username'] == request.args['username'] and creds['password'] == request.args['password']:
+            session['username']=request.args['username']
+            session['authenticated']='1'
+            return "Auth OK", 200
+        else: 
+            return "Auth Failed check username and password", 401
+    return "No Username or Password supplied in query parms.", 400
+
+@cross_origin()
+@app.route('/reset-auth', method = ['POST', 'GET'])
+def reset_auth():
+    if int(session[USERNAME]):
+        for d in SESSION_DETAILS:
+            session.pop(d, None)
+        return "Rest auth Susccefull", 200
+    return "Unauthenticated or Unknown Error", 400
+
 
 
 @app.route('/hello-world',methods=['GET'])
