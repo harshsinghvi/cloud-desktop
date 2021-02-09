@@ -138,6 +138,7 @@ def get_data():
     creds.pop("_id")
     creds.pop("password")
     data['data'] = creds
+    data['images'] = DOCKER_IMAGES
     return data, 200
 # @app.route('/new', methods = ['POST'])
 # @app.route('/delete', methods = ['POST', 'GET'])
