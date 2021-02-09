@@ -1,33 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>StackApi</title>
+    <title>Cloud Desktop</title>
 
     <link rel="stylesheet" href="style.css">
     <link rel='shortcut icon' type='image/x-icon' href='/static/favicon.ico' />
 </head>
 
 <body style="text-align:center;" id="body">
-    <script src="main.js"></script>
-
-    <h1 style="color:#0366D6;">StackApi</h1>
+    <script src="index.js"></script>
+    <h1 style="color:#0366D6;">Cloud Desktop</h1>
     <p> 
-        <!-- Making a text input -->
-        <input type="text" id="push_data" placeholder="Push Data">       
-        <!-- Button to send data -->
-        <button onclick="push()">🔼Push</button> 
-        <button onclick="pop()"> 🔽Pop </button> <br><br> 
-        <!-- For printing result from server -->
-        <p id="result" style="color:green"> </p> 
+        <div class="login">
+            <h2>Login to continue </h2>
+              <form method="post" action="http://localhost:5000/login">
+                <input type="text" name="Username" placeholder="Username or E-Mail" required="required" />
+                <input type="password" name="password" placeholder="Password" required="required" />
+                <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+              </form>
+          </div>
     </p>
-    <br> 
-    <h3 id="size"> Loading </h3>
-    <br>
-    <center>
-        <table style="width:70%" id="data"> 
-        <!-- For printing data   from server -->
-        </table>
-    </center>
-    <br> 
 </body>
 </html>
