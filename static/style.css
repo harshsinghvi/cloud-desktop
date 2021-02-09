@@ -1,0 +1,6 @@
+body          { color: #eee; background: #121212; font:sans-serif; }
+h1            { color: white;font-size: 500%; }
+h2            { color: red; }
+p             { color: red; }
+button        { color: #0366D6; background-color: #212121; }
+table, th, td {  border: 1px solid black; border-spacing: 0px; font-size: larger; }
