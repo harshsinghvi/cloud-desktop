@@ -10,11 +10,13 @@
 <body style="text-align:center;" id="body">
     <script src="main.js">   </script>
 
+
     <h1 style="color:#0366D6;">Cloud Desktop</h1>
     <div id="status"> <h2 style='color:yellowgreen;'> Checking Service Status </h2></div>
     <p> 
-        <div id = "login" class="login">
+        <div id="login" class="login">
             <h2>Login to continue </h2>
+            <p style = "color:red;"> Login failed ! Try again. Check your Credentials. </p>
               <form method="post" action="http://localhost:5000/login">
                 <input type="text" name="username" placeholder="Username or E-Mail" required="required" />
                 <input type="password" name="password" placeholder="Password" required="required" />
@@ -23,8 +25,9 @@
           </div>
     </p>
     <script>
-        document.getElementById("login").style.visibility="hidden"; 
+        document.getElementById("login").style.visibility=  "hidden"; 
         service_status(); 
     </script>
+
 </body>
 </html>

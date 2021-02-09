@@ -9,11 +9,10 @@ from datetime import datetime
 
 from settings import *
 
-
-
 # Flask app config
 app = Flask(__name__)
 app.config["DEBUG"] = True
+app.secret_key = FLASK_SECRET_KEY
 
 # database config
 app.config['MONGO_URI'] = MONGODB_URI
@@ -29,7 +28,7 @@ client = docker.from_env() ## for local docker host
 # Session Properties
 SESSION_DETAILS=['username','authenticated']
 USERNAME = SESSION_DETAILS[0]
-AUTHENCATED = SESSION_DETAILS[1]
+AUTHENTICATED = SESSION_DETAILS[1]
 PASSWORD = 'password'
 
 # TZ
@@ -43,27 +42,42 @@ def auth_check(username, password):
     else: 
         return False
 
+# routes 
+
 @app.route('/', methods=['GET', 'POST'])
 def root():
-    return redirect(FRONTEND_URL+"/index.html")
+    return redirect(FRONTEND_URL)
+
+@app.route('/retry', methods=['GET', 'POST'])
+def retry():
+    return redirect(FRONTEND_URL+"/retry.html")
 
 @cross_origin()
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if auth_check(request.form['username'], request.form['password']):
-        session['username']=request.args['username']
+    if request.method == 'GET':
+        return redirect(FRONTEND_URL)
+    if AUTHENTICATED in session: 
+        logout()
+    try:
+        username = request.form['username']
+        password = request.form['password']
+    except:
+        return redirect(FRONTEND_URL+"/retry.html")
+
+    if auth_check(username , password ):
+        session['username']=username
         session['authenticated']='1'
         return redirect(FRONTEND_URL+"/portal.html")
-    return redirect(FRONTEND_URL+"/index.html")
+    return redirect(FRONTEND_URL+"/retry.html")
 
 @cross_origin()
 @app.route('/logout', methods = ['POST', 'GET'])
 def logout():
-    if int(session[AUTHENCATED]):
+    if AUTHENTICATED in session:
         for d in SESSION_DETAILS:
             session.pop(d, None)
-        return redirect(FRONTEND_URL+"/index.html")
-    return redirect(FRONTEND_URL+"/index.html")
+    return redirect(FRONTEND_URL)
 
 @cross_origin()
 @app.route('/auth', methods = ['POST', 'GET'])
@@ -80,11 +94,52 @@ def auth():
 @cross_origin()
 @app.route('/reset-auth', methods = ['POST', 'GET'])
 def reset_auth():
-    if int(session[USERNAME]):
+    if AUTHENTICATED in session:
         for d in SESSION_DETAILS:
             session.pop(d, None)
         return "Rest auth Susccefull", 200
     return "Unauthenticated or Unknown Error", 400
+
+@app.route('/test-auth',methods=['GET'])
+def test_auth():
+    if AUTHENTICATED in session:
+        cred = mongo.db.users.find_one({"username":session['username']},{ "_id": 0, "username": 1})
+        print(session)
+        return "<h1> Authenticated as "+ cred['username'], 200
+    return "<h1> Suck it!!  not Authenticated "
+
+@app.route('/service-status', methods = ['GET'])
+def service_status():
+    return "OK", 200
+
+@cross_origin()
+@app.route('/get-data', methods = ['GET'])
+def get_data():
+    print(session)
+    data = {}
+    if AUTHENTICATED not in session: 
+        data['authenticated'] = 0
+        data['msg'] = 'no auth found'
+        return data,401
+    try:
+        username = session['username']
+        creds = mongo.db.users.find_one({"username":session["username"]})
+        if username != creds['username'] : 
+            raise 
+    except:
+        data['authenticated'] = 0
+        data['msg'] = "Auth error or DB Error"
+        return data,401
+
+    data['authenticated'] = 1
+    data['msg'] = "OK"
+    return data, 200
+# @app.route('/new', methods = ['POST'])
+# @app.route('/delete', methods = ['POST', 'GET'])
+@app.after_request
+def creds(response):
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response
 
 @app.route('/hello-world',methods=['GET'])
 def hello_world():
@@ -93,6 +148,7 @@ def hello_world():
 @app.route('/version',methods=['GET'])
 def docker_version():
     return client.version()
+
 @app.route('/pull-images',methods=['GET'])
 def pull_images():
     temp=[]
@@ -110,6 +166,7 @@ def info():
 @app.route('/df',methods=['GET'])
 def df():
     return client.df()
+
 @app.route('/get-container',methods=['GET'])
 def get_container():
     image=DEFAULT_DOCKER_IMAGE

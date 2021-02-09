@@ -1,4 +1,4 @@
-from os import path,getenv
+from os import path,getenv,urandom
 from dotenv import load_dotenv
 
 if path.isfile(".env"):
@@ -15,3 +15,5 @@ TIME_ZONE = 'Asia/Kolkata'
 
 # FRONTEND_URL='https://cloud-desktop.harshsinghvi.com'
 FRONTEND_URL='http://localhost:8000'
+
+FLASK_SECRET_KEY = urandom(12) 

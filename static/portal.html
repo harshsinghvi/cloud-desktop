@@ -2,11 +2,35 @@
 <html>
 <head>
     <title>Cloud Desktop</title>
-
+    <link rel="stylesheet" href="header.css">
     <link rel='shortcut icon' type='image/x-icon' href='/static/favicon.ico' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body style="text-align:center;" id="body">
-    <h1 style="color:#0366D6;">Cloud Desktop</h1>
+<script src="main.js"></script>
+<script> 
+    data();
+</script>
+
+<nav class="nav">
+    <div class="container">
+        <div class="logo">
+            <a style="color:#0366D6;" href="">Cloud Desktop</a>
+        </div>
+
+        <div id="mainListDiv" class="main_list">
+            <ul class="navlinks">
+                <li><a id="new_nav_bar" style="color: yellow;" onclick="new_show()" ><i class="fa fa-plus-circle" aria-hidden="true"></i></a></li>
+                <li><a id="username" >Username</a></li>
+                <li><a style="color: #00E676;" onclick="logout()">Logout <i style="font-size:24px" class="fa">&#xf08b;</i> </a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<h2> Welcome </h2> 
+<p> user guide </p>
+
 </body>
 </html>

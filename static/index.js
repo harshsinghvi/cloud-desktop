@@ -1,4 +1,4 @@
-const URL="http://localhost:5000";
+const URL="https://stackapi.vercel.app";
 // const URL="http://localhost:5000";
 async function main(){
     var url = URL+"/stack";
