@@ -9,6 +9,9 @@ from datetime import datetime
 
 from settings import *
 
+class Username_error(Exception):
+    pass 
+
 # Flask app config
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -125,14 +128,16 @@ def get_data():
         username = session['username']
         creds = mongo.db.users.find_one({"username":session["username"]})
         if username != creds['username'] : 
-            raise 
+            raise Username_error
     except:
         data['authenticated'] = 0
         data['msg'] = "Auth error or DB Error"
         return data,401
-
     data['authenticated'] = 1
     data['msg'] = "OK"
+    creds.pop("_id")
+    creds.pop("password")
+    data['data'] = creds
     return data, 200
 # @app.route('/new', methods = ['POST'])
 # @app.route('/delete', methods = ['POST', 'GET'])

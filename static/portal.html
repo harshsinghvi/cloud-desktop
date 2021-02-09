@@ -7,29 +7,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body style="text-align:center;" id="body">
+<body id="body">
 <script src="main.js"></script>
-<script> 
-    data();
-</script>
+<script> data(); </script>
 
-<nav class="nav">
-    <div class="container">
-        <div class="logo">
-            <a style="color:#0366D6;" href="">Cloud Desktop</a>
-        </div>
+<div class="topnav">
+    <a class="active" style="color:#0366D6;" href="/">Cloud Desktop</a>
+    <a id="logout" style="color: #00E676; float: right; font-size: larger;" onclick="logout()">Logout <i style="font-size:24px" class="fa">&#xf08b;</i> </a>
+    <a id="username" style="float: right; font-size: x-large;" > Username </a>
+    <a id="new_nav_bar" style="color: yellow; float: right; " onclick="new_show()" ><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+  </div>
 
-        <div id="mainListDiv" class="main_list">
-            <ul class="navlinks">
-                <li><a id="new_nav_bar" style="color: yellow;" onclick="new_show()" ><i class="fa fa-plus-circle" aria-hidden="true"></i></a></li>
-                <li><a id="username" >Username</a></li>
-                <li><a style="color: #00E676;" onclick="logout()">Logout <i style="font-size:24px" class="fa">&#xf08b;</i> </a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<h2> Welcome </h2> 
+<h1> Welcome </h1> 
 <p> user guide </p>
 
 </body>
