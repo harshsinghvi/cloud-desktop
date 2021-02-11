@@ -15,13 +15,20 @@
     <a id="logout" style="color: #00E676; float: right; font-size: larger;" onclick="logout()">Logout <i style="font-size:24px" class="fa">&#xf08b;</i> </a>
     <a id="username" style="float: right; font-size: x-large;" > Username </a>
     <a id="new_nav_bar" style="color: yellow; float: right; " onclick="new_desklet_show()" ><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+    <a id="refresh" style="color: violet; float: right;" onclick="data()" label="refresh"><i class="fa fa-refresh" aria-hidden="true"></i></a>
   </div>
 
 <h1><span class="blue">&lt;</span>Welcome<span class="blue">&gt;</span> <span class="yellow" id="welcome"></span> !!</h1>
 
 <h2 id ="intro">Created with love by <a target="_blank">Harsh </a>!!</h2>
-<div id="new_desklet_form"> 
-New Desklet form !!
+<div id="new_desklet_form">    
+    <input type="text" id="desklet_name" placeholder="Desklet Name" required="required" />
+    <input type="list" id="desklet_password" placeholder="Desklet Password"  />
+    <input list="images" id="desklet_image" placeholder="Type / Version"required="required">
+    <datalist id="images">  </datalist>
+    <!-- <button type="submit" class="btn btn-primary btn-block btn-large"> <i class="fa fa-plus-circle" aria-hidden="true"></i> Create</button> -->
+    <button onclick="new_desklet()" > <i class="fa fa-plus-circle" aria-hidden="true"></i> Create</button>
+    <button onclick="new_desklet_hide()"> <i class="fa fa-times-circle" aria-hidden="true"></i> HIDE </button>
 
 </div> 
 <p> user guide </p>

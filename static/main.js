@@ -1,8 +1,6 @@
 const URL="http://localhost:5000";
 const HOME= "http://localhost:8000";
 
-var new_desklet_show_flag=0;
-
 async function service_status(){
     var url = URL+"/service-status";
     const response = await fetch(url).catch(function(){
@@ -32,7 +30,6 @@ async function data(){
     {
         window.location.replace(HOME+"/retry.html"); 
     }
-    // var count = praseInt(1);
     var count = 1;
     html = "";
     for(i in data['data']['containers'])
@@ -50,6 +47,7 @@ async function data(){
     }
 
     console.log(data);
+    document.getElementById("images").innerHTML= ' <option value="Internet Explorer (default)">  <option value="Firefox">  <option value="Chrome">';
 }
 
 function delete_desklet(uid){
@@ -58,35 +56,23 @@ function delete_desklet(uid){
 }
 
 function new_desklet(){
-
+    
+    data();
+    desklet_name.value = '';
+    desklet_password.value='';
+    desklet_image.value='';
 }
 
 function new_desklet_show(){
-    //console.log("new_desklet_show");
-    if(new_desklet_show_flag == 1 || new_desklet_show_flag == '1')
-    {
-
-        new_desklet_show_flag = 0;
-        document.getElementById("intro").style.visibility="visible"; 
-        document.getElementById("new_desklet_form").style.visibility="hidden"; 
-
-        console.log("new_desklet_show if");
-        // new_desklet_hide();
-    }
-    new_desklet_show_flag=1;
     document.getElementById("intro").style.visibility="hidden"; 
     document.getElementById("new_desklet_form").style.visibility="visible";
     setTimeout(500);
-    // new_desklet_hide();
 }
 
 function new_desklet_hide()
 {
-    // console.log("new_desklet_hide");
-    new_desklet_show_flag = 0;
     document.getElementById("intro").style.visibility="visible"; 
     document.getElementById("new_desklet_form").style.visibility="hidden"; 
-
 }
 function connect_desklet(uid){
 
