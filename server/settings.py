@@ -7,7 +7,7 @@ if path.isfile(".env"):
 MONGODB_URI = getenv("MONGO_DB_URI")
 DOCKER_REMOTE_HOST=getenv("DOCKER_REMOTE_HOST")
 
-DOCKER_IMAGES=["code:v1"]
+DOCKER_IMAGES=["code:v1", "dorowu/ubuntu-desktop-lxde-vnc"]
 
 DEFAULT_DOCKER_IMAGE=DOCKER_IMAGES[0]
 

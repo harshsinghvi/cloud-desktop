@@ -140,20 +140,15 @@ def get_data():
     data['data'] = creds
     data['images'] = DOCKER_IMAGES
     return data, 200
-# @app.route('/new', methods = ['POST'])
+    
+# @app.route('/new', methods = ['POST']) # add check name too 
 # @app.route('/delete', methods = ['POST', 'GET'])
+
 @app.after_request
 def creds(response):
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response
 
-@app.route('/hello-world',methods=['GET'])
-def hello_world():
-    return client.containers.run("hello-world", remove=True)
-
-@app.route('/version',methods=['GET'])
-def docker_version():
-    return client.version()
 
 @app.route('/pull-images',methods=['GET'])
 def pull_images():
@@ -165,15 +160,8 @@ def pull_images():
             temp.append(image+" : notfound")
     return {"images":temp}
 
-@app.route('/info',methods=['GET'])
-def info():
-    return client.info()
 
-@app.route('/df',methods=['GET'])
-def df():
-    return client.df()
-
-@app.route('/get-container',methods=['GET'])
+@app.route('/new-desklet',methods=['GET'])
 def get_container():
     image=DEFAULT_DOCKER_IMAGE
     if 'pass' not in request.args:
@@ -193,7 +181,6 @@ def get_container():
         'container_id':container.id,
         'container_name':container.name,
         'container_ports': i['Ports'],
-        'container_public_port': i['Ports'][0]['PublicPort'],
         'container_image': i['Image']
     }
 
@@ -237,6 +224,22 @@ def all_containers():
         )
     return {"Containers":temp},200
 
+
+@app.route('/info',methods=['GET'])
+def info():
+    return client.info()
+
+@app.route('/df',methods=['GET'])
+def df():
+    return client.df()
+    
+@app.route('/hello-world',methods=['GET'])
+def hello_world():
+    return client.containers.run("hello-world", remove=True)
+
+@app.route('/version',methods=['GET'])
+def docker_version():
+    return client.version()
 
 
 if __name__ == '__main__':
