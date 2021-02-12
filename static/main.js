@@ -34,7 +34,7 @@ async function data(){
     html = "";
     for(i in data['data']['containers'])
     {
-        html = html + '  <tr>    <td>'+ count++ +'</td><td>'+i +'</td> <td><a onclick="delete_desklet('+i+')" > <i class="fa fa-trash" aria-hidden="true"></i></a> | <a onclick="connect_desklet()" > Connect <i class="fa fa-plug" aria-hidden="true"></i></a></td>  </tr>'
+        html = html + '  <tr>    <td>'+ count++ +'</td><td>'+i +'</td> <td><a onclick="delete_desklet(\''+i+'\')" > <i class="fa fa-trash" aria-hidden="true"></i></a> | <a onclick="connect_desklet(\''+ data['data']['containers'][i] +'\')" > Connect <i class="fa fa-plug" aria-hidden="true"></i></a></td>  </tr>'
     }
     document.getElementById("data").innerHTML=html;
     if(data['data']['maxAllowed'] == 0 || data['data']['maxAllowed'] == '0')
@@ -60,36 +60,23 @@ function delete_desklet(uid){
 }
 
 async function new_desklet(){
-    var data = {};
-    post_data = {
-        "name" : desklet_name.value,
-        "password" : desklet_password.value,
-        "image" : desklet_image.value
-    };
-    var url = URL+"/get-desklet";
+    var quary = "?name=" + desklet_name.value +  "&password=" + desklet_password.value + "&image=" + desklet_image.value ;
+    var url = URL+"/get-desklet" + quary;
     const response = await fetch(url, {
         method: 'POST',
         credentials: 'include',
-        mode: 'no-cors',
-        body: JSON.stringify(post_data)
-      }).then(function() {    
-            data = response.json();
-            console.log(data);
-            data();
-            desklet_name.value = '';
-            desklet_password.value='';
-            desklet_image.value='';
-    
-        }).catch( function(){
+    }).catch( function(){
         alert("Problem in creating Desklet, Please Try again !");
+        return 0;
     });
 
+    res_data = await response.text();
+    console.log(res_data);
+    data();
+    desklet_name.value = '';
+    desklet_password.value='';
+    desklet_image.value='';
     
-    
-    // data();
-    // desklet_name.value = '';
-    // desklet_password.value='';
-    // desklet_image.value='';
 }
 
 function new_desklet_show(){
@@ -104,5 +91,6 @@ function new_desklet_hide()
     document.getElementById("new_desklet_form").style.visibility="hidden"; 
 }
 function connect_desklet(uid){
+    alert("Connect "+uid+"?");
 
 }
