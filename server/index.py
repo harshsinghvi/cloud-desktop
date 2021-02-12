@@ -118,7 +118,6 @@ def service_status():
 @cross_origin()
 @app.route('/get-data', methods = ['GET'])
 def get_data():
-    print(session)
     data = {}
     if AUTHENTICATED not in session: 
         data['authenticated'] = 0
@@ -140,8 +139,24 @@ def get_data():
     data['data'] = creds
     data['images'] = DOCKER_IMAGES
     return data, 200
-    
-# @app.route('/new', methods = ['POST']) # add check name too 
+
+@cross_origin()
+@app.route('/get-desklet', methods = ['POST']) # add check name too 
+def get_desklet():
+    return "OK",200
+    # return_data = {}
+    # if AUTHENTICATED not in session: 
+    #     return_data['authenticated'] = 0
+    #     return_data['msg'] = 'no auth found'
+    #     return return_data,401
+
+    # try:
+    #     data = request.get_json()
+    # except: 
+    #     return "Bad Request",404
+    # print(data)
+    # return_data = data
+    # return return_data, 200
 # @app.route('/delete', methods = ['POST', 'GET'])
 
 @app.after_request

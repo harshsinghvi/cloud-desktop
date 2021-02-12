@@ -45,9 +45,13 @@ async function data(){
     {
         document.getElementById("intro").innerHTML="You have "+data['data']['maxAllowed']+" Desklets left. <a onclick='new_desklet_show()' >Click "+'<i class="fa fa-plus-circle" aria-hidden="true"></i></a> ' + "to make a new Desklet. Contact <a target='_blank'> Admin <a> for More Desklets ";
     }
-
+    images_html=''
+    for(i in data['images'])
+    {
+        images_html += '<option value="' + data['images'][i] + '">';
+    }
+    document.getElementById("images").innerHTML=images_html;
     console.log(data);
-    document.getElementById("images").innerHTML= ' <option value="Internet Explorer (default)">  <option value="Firefox">  <option value="Chrome">';
 }
 
 function delete_desklet(uid){
@@ -55,12 +59,37 @@ function delete_desklet(uid){
     data();
 }
 
-function new_desklet(){
+async function new_desklet(){
+    var data = {};
+    post_data = {
+        "name" : desklet_name.value,
+        "password" : desklet_password.value,
+        "image" : desklet_image.value
+    };
+    var url = URL+"/get-desklet";
+    const response = await fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        mode: 'no-cors',
+        body: JSON.stringify(post_data)
+      }).then(function() {    
+            data = response.json();
+            console.log(data);
+            data();
+            desklet_name.value = '';
+            desklet_password.value='';
+            desklet_image.value='';
     
-    data();
-    desklet_name.value = '';
-    desklet_password.value='';
-    desklet_image.value='';
+        }).catch( function(){
+        alert("Problem in creating Desklet, Please Try again !");
+    });
+
+    
+    
+    // data();
+    // desklet_name.value = '';
+    // desklet_password.value='';
+    // desklet_image.value='';
 }
 
 function new_desklet_show(){
