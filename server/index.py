@@ -143,6 +143,7 @@ def get_data():
 @cross_origin()
 @app.route('/get-desklet', methods = ['POST']) # add check name too 
 def get_desklet():
+    print(request.args['name'] + " " +request.args['password'] + " " + request.args['image'])
     return "OK",200
     # return_data = {}
     # if AUTHENTICATED not in session: 
