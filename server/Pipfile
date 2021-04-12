@@ -20,7 +20,7 @@ six = "==1.15.0"
 urllib3 = "==1.25.11"
 websocket-client = "==0.57.0"
 werkzeug = "==1.0.1"
-Jinja2 = "==2.11.2"
+Jinja2 = "==2.11.3"
 MarkupSafe = "==1.1.1"
 
 [requires]
